@@ -1,5 +1,5 @@
 from operator import itemgetter
-
+import re
 
 def fonts(doc, granularity=False):
     """Extracts fonts and their usage in PDF documents.
@@ -136,6 +136,16 @@ size_tag = font_tags(font_counts, styles)
 print(size_tag)
 header_para = headers_para(doc, size_tag)
 
+# find all h1 tags
+h1 = [i for i in header_para if '<h1>' in i]
+pattern="(?<=<h1>).+?(?=</h1>)"
+#r'<h1>(.*?)\|'
+
+regions = []
+for line in h1:
+    region = re.findall(r'<h1>(.*?)\|', line)
+    regions.extend(region)
+print(regions)
 #save the output to a text file
 with open('output.txt', 'w') as f:
     for item in header_para:

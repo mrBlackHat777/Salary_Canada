@@ -6,7 +6,10 @@ import pandas as pd
 # creating a pdf reader object
 reader = PdfReader("data/2023 Salary Guide _PDF.pdf")
 provinces = ["ontario", "québec", "british columbia", "alberta", "manitoba", "saskatchewan", "nova scotia", "new brunswick", "newfoundland & labrador", "prince edward island"]
-data = {'province': [], 'job': [], 'entry': [], 'mid': [], 'senior': []}
+regions=['calgary metropolitan region', 'edmonton metropolitan region', 'northern alberta', 'red deer', 'fort st. john', 'fraser valley', 'greater vancouver', 'greater victoria', 'kelowna', 'prince george', 'surrey/delta', 'winnipeg metropolitan region', 'greater moncton', 'saint john', 'york region', 'conception bay - st. john’s', 'greater halifax', 'brant county', 'cambridge', 'durham region', 'frontenac county', 'greater hamilton area', 'greater sudbury area', 'greater toronto area', 'halton region', 'hastings county', 'london area', 'niagara region', 'ottawa metropolitan region', 'oxford county', 'peel region', 'peterborough county', 'simcoe county', 'waterloo region', 'wellington county', 'windsor-essex county', 'york region', 'queens - charlottetown', 'centre-du-québec', 'chaudière-appalaches', 'estrie', 'lanaudière', 'laurentides', 'laval', 'mauricie', 'montérégie - agglomeration ', 'montérégie - brome-missisquoi', 'montérégie - la haute-yamaska', 'montérégie - les maskoutains', 'montérégie - vaudreuil-soulanges', 'montréal', 'national capital', 'outaouais', 'saguenay-lac-saint-jean', 'moose jaw', 'regina metropolitan area', 'saskatoon metropolitan area']
+
+
+data = {'province': [],'region':[], 'job': [], 'entry': [], 'mid': [], 'senior': []}
 # printing number of pages in pdf file
 print(len(reader.pages))
 
@@ -24,7 +27,10 @@ for page in reader.pages:
             if province in text.lower():
                 current_province = province  # Save the province that was found
                 break  # Exit the loop once a province is found
-        
+        for region in regions:
+            if region in text.lower():
+                current_region = region
+                break
         #2023 salary guide  |61director of operations 110.0 -140.0 186.0 -190.0 210.0 -230.0
         if "2023 salary guide" in line.lower():
             #remove 2023 salary guide  |XX from the line to keep only the job title and salary range
@@ -75,6 +81,7 @@ for page in reader.pages:
             data['mid'].append(mid_range.strip())
             data['senior'].append(senior_range.strip())
             data['province'].append(current_province)
+            data['region'].append(current_region)
         else:
             #secteurs d'activité    
             #print(line)
