@@ -13,16 +13,16 @@ print(len(reader.pages))
 # getting a specific page from the pdf file
 page = reader.pages
 current_region=""
+current_province=""
 for page in reader.pages:
 
-    text = page.extract_text()
+    text = page.extract_text().lower()
 
     for line in text.splitlines():
         #find the province
         for province in provinces:
             if province in text.lower():
                 current_province = province  # Save the province that was found
-                #print('province: ' + current_province)
                 break  # Exit the loop once a province is found
         
         #2023 salary guide  |61director of operations 110.0 -140.0 186.0 -190.0 210.0 -230.0
@@ -49,22 +49,19 @@ for page in reader.pages:
             # Split remaining numbers
             numbers = match.group(2)
 
-            #replace space with nothing
-            numbers = numbers.replace(" ", "")
-            numbers = numbers.replace("-", "")
 
+            #14.25 - 18.0 16.0 - 21.0 18.0 -21.0
+            pattern = r'(\d+\.\d+)\s*-\s*(\d+\.\d+)'
 
+            # Find all matches of the pattern in the line
+            numbers = re.findall(pattern, numbers)
 
-            #62.979.272.997.585.7106.0
-            #extract numbers from string each numebr have 1 decimal place
-            numbers = re.findall(r"\d+\.\d", numbers)
-            
             #split numbers into 3 groups or 4 groups(finance department)
-            if len(numbers) == 6:
-                    entry_range = numbers[0] + "-" + numbers[1]
-                    mid_range = numbers[2] + "-" + numbers[3]
-                    senior_range = numbers[4] + "-" + numbers[5]
-            elif(len(numbers) == 8):
+            if len(numbers) == 3:
+                    entry_range = numbers[0][0] + "-" + numbers[1][1]
+                    mid_range = numbers[1][0] + "-" + numbers[1][1]
+                    senior_range = numbers[2][0] + "-" + numbers[2][1]
+            elif(len(numbers) == 4):
                 continue
                 year_1 = numbers[0] + "-" + numbers[1]
                 years_3 = numbers[2] + "-" + numbers[3]
@@ -80,13 +77,9 @@ for page in reader.pages:
             data['province'].append(current_province)
         else:
             #secteurs d'activité    
+            #print(line)
             continue
 
-print(len(data['job']))
-print(len(data['entry']))
-print(len(data['mid']))
-print(len(data['senior']))
-print(len(data['province']))
 
 #save data to pickle file
 output_file = 'data/salary_guide.pkl'
