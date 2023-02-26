@@ -1,0 +1,8 @@
+python-dotenv==0.21.1
+backtesting==0.3.3
+httpx==0.23.3
+pandas==1.4.0
+polars==0.13.3
+numpy==1.24.2
+matplotlib==3.5.1
+seaborn==0.11.2

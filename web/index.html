@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Strategy Backtesting</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+  <h1>Strategy Backtesting</h1>
+
+  <p>This page displays the results of backtesting a trading strategy on historical data.</p>
+  
+
+  <h2>Rules</h2>
+    <ul>
+        <li>Buy when the price is below the 20-day moving average</li>
+        <li>Sell when the price is above the 20-day moving average</li>
+    </ul>
+
+    <h2>Results</h2>
+
+    
+    <p>Initial capital: $100,000</p>
+    <p>Final capital: $100,000</p>
+    <p>Return: 0%</p>
+    <p>Max drawdown: 0%</p>
+    <p>Max drawdown duration: 0 days</p>
+  
+  <h2>Strategy Backtesting</h2>
+  <a href="https://example.com/file.csv">Download CSV file</a>
+  <a href="https://example.com/file.pk">Download PK file</a>
+ 
+  <div id="plot"></div>
+  <script>
+    var trace1 = {
+      x: [1, 2, 3, 4],
+      y: [10, 11, 12, 13],
+      type: 'scatter'
+    };
+    var trace2 = {
+      x: [1, 2, 3, 4],
+      y: [9, 10, 11, 12],
+      type: 'scatter'
+    };
+    var data = [trace1, trace2];
+    Plotly.newPlot('plot', data);
+  </script>
+</body>
+
+
+</html>
